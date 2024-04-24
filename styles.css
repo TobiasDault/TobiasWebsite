@@ -12,7 +12,9 @@ header {
     margin: 0 auto;
     overflow: hidden;
 }
-
+h1 {
+	color : white;
+}
 nav ul {
     list-style-type: none;
     margin: 0;
