@@ -13,7 +13,7 @@ header {
     overflow: hidden;
 }
 h1 {
-	color : white;
+	color : white; /* For the top title */
 }
 nav ul {
     list-style-type: none;
