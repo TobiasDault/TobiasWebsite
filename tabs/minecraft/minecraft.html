@@ -45,7 +45,9 @@ fetch(url)
   })
   .then(data => {
     //const obj = JSON.parse(data);
-    document.getElementById("serverUp").innerHTML = data.debug.ping ? "ONLINE" : "OFFLINE";
+    const serverUpElement = document.getElementById("serverUp");
+    serverUpElement.innerHTML = data.debug.ping ? "OFFLINE" : "ONLINE";
+    serverUpElement.style.color = data.debug.ping ? "red" : "green";
   })
   .catch(error => {
     // Handle errors
