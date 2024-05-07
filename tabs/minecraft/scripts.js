@@ -48,11 +48,11 @@ var timerInterval;
 function startTimer(timerElement, up) {
     var startTime = new Date(parseInt(localStorage.getItem("lastServertime")));
     function updateTimer() {
-        console.log("startTime: " + startTime);
+        // console.log("startTime: " + startTime);
         var currentTime = new Date().getTime();
-        console.log("currentTime: " + currentTime);
+        // console.log("currentTime: " + currentTime);
         var elapsedTime = currentTime - startTime;
-        console.log("elapsedTime: " + elapsedTime);
+        // console.log("elapsedTime: " + elapsedTime);
         var seconds = Math.floor(elapsedTime / 1000);
         var minutes = Math.floor(seconds / 60);
         seconds %= 60;
