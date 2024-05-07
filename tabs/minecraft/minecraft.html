@@ -46,8 +46,8 @@ fetch(url)
   .then(data => {
     //const obj = JSON.parse(data);
     const serverUpElement = document.getElementById("serverUp");
-    serverUpElement.innerHTML = data.debug.ping ? "OFFLINE" : "ONLINE";
-    serverUpElement.style.color = data.debug.ping ? "red" : "green";
+    serverUpElement.innerHTML = data.online ? "ONLINE" : "OFFLINE";
+    serverUpElement.style.color = data.online ? "green" : "red";
   })
   .catch(error => {
     // Handle errors
