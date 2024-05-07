@@ -66,3 +66,4 @@ function stopTimer() {
 // Update server status initially and every 10 seconds
 updateServerStatus();
 setInterval(updateServerStatus, 10000);
+//does this work?
