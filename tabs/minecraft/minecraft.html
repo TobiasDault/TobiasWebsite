@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tobias Dault - Personal Website</title>
+    <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Tobias Dault</h1>
+            <nav>
+                <ul>
+                    <li><a href="../../index.html">Home</a></li>
+                    <li><a href="../career/career.html">Career</a></li>
+                    <li><a href="../programming/programming.html">Programming</a></li>
+                    <li><a href="../music/music.html">Music</a></li>
+                    <li><a href="../miscellaneous/miscellaneous.html">Miscellaneous</a></li>
+                    <li><a href="minecraft.html">Minecraft</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section>
+                <h2>Is the server up?</h2>
+                <p>The Server is....</p>
+                <h2 id="serverUp"></h2>
+            </section>
+                <script>
+const txt = await (await fetch('https://api.mcsrvstat.us/3/mc.tobiasdault.com')).json();
+const obj = JSON.parse(txt);
+document.getElementById("serverUp").innerHTML = obj.debug.ping ? "ONLINE" : "OFFLINE";
+</script>
+            <section>
+                <h2>Contact Me</h2>
+                <p>You can reach me at: tobiasdault@gmail.com</p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Tobias Dault - All Rights Reserved</p>
+        </div>
+    </footer>
+</body>
+</html>
