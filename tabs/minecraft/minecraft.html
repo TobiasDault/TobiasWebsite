@@ -31,9 +31,26 @@
                 <h2 id="serverUp"></h2>
             </section>
                 <script>
-const txt = await (await fetch('https://api.mcsrvstat.us/3/mc.tobiasdault.com')).json();
-const obj = JSON.parse(txt);
-document.getElementById("serverUp").innerHTML = obj.debug.ping === "true" ? "ONLINE" : "OFFLINE";
+const url = 'https://api.mcsrvstat.us/3/mc.tobiasdault.com';
+
+// Fetch the data
+fetch(url)
+  .then(response => {
+    // Check if the response is successful
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    // Parse the JSON
+    return response.json();
+  })
+  .then(data => {
+    const obj = JSON.parse(data);
+    document.getElementById("serverUp").innerHTML = obj.debug.ping === "true" ? "ONLINE" : "OFFLINE";
+  })
+  .catch(error => {
+    // Handle errors
+    console.error('There was a problem with your fetch operation:', error);
+  });
 </script>
             </section>    
                 <h2>Contact Me</h2>
