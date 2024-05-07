@@ -44,8 +44,8 @@ fetch(url)
     return response.json();
   })
   .then(data => {
-    const obj = JSON.parse(data);
-    document.getElementById("serverUp").innerHTML = obj.debug.ping === "true" ? "ONLINE" : "OFFLINE";
+    //const obj = JSON.parse(data);
+    document.getElementById("serverUp").innerHTML = data.debug.ping === "true" ? "ONLINE" : "OFFLINE";
   })
   .catch(error => {
     // Handle errors
