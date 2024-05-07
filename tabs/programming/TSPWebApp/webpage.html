@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<html lang="en-US">
+<h1>Traveling Salesman Problem</h1>
+
+<p>An implementation of three different TSP approximation algorithms
+    <br><a href="https://github.com/TobsterStrudel/TSPWebApp">Github Repository</a>
+</p>
+<dl>
+    <dt style="font-size:20px">Nearest Neighbor Algorithm</dt>
+    <dd>The path is decided by which point is closest to the current point. Runs in O(n<sup>2</sup>) time, doesn't find most efficient path.</dd><br>
+    <dd><b>Nearest-Neighbor(<i>P</i>)</b><br>
+        &emsp;Stack <i>path</i><br>
+        &emsp;boolean array <i>V</i> of size ||<i>P</i>|| populated with false<br>
+        &emsp;<i>path</i>.push(1)<br>
+        &emsp;<i>i</i> = 0<br>
+        &emsp;<b>while</b>(||<i>path</i>|| < ||<i>P</i>||)<br>
+        &emsp;&emsp;<i>V<sub>i</sub></i> = true<br>
+        &emsp;&emsp;<i>closest</i> = closest point to <i>P<sub>i</sub></i><br>
+        &emsp;&emsp;<i>path</i>.push(<i>closest</i>)<br>
+        &emsp;&emsp;<i>i</i> = <i>closest</i><br>
+        &emsp;<i>path</i>.push(1)<br>
+        &emsp;return <i>path</i><br><br>
+
+
+    </dd>
+    <dt style="font-size:20px">2-approx Algorithm</dt>
+    <dd>Construct path by creating an MST (Prim's was used in this example) then performing depth-first search. O(n<sup>2</sup>)</dd><br>
+    <dd><b>Two-Approximate</b>(<i>P</i>)<br>
+        &emsp;Stack <i>path</i><br>
+        &emsp;generate complete weighted graph of <i>P</i><br>
+        &emsp;<i>MST</i> = minimum spanning tree of weighted graph<br>
+        &emsp;adjacency matrix <i>A</i> of size ||<i>P</i>|| populated with 0<br>
+        &emsp;<b>for</b>(<i>i</i> in <i>MST</i>)<br>
+        &emsp;&emsp;add <i>i</i> to adjacency matrix<br>
+        &emsp;run depth-first-search on <i>adj</i> and add each visited node to <i>path</i><br>
+        &emsp;<i>path</i>.push(1)<br>
+        &emsp;return <i>path</i><br><br>
+
+
+    </dd>
+    <dt style="font-size:20px">1.5-approx Algorithm (Christofides)</dt>
+    <dd>Construct path by creating an MST, find a minimum-cost perfect matching for odd-degree vertices, add edges and form an Eulerian circuit, and then remove all repeated vertices. O(n<sup>3</sup>)</dd><br>
+    <dd><b>Christofides</b>(<i>P</i>)<br>
+        &emsp;generate complete weighted graph of <i>P</i><br>
+        &emsp;<i>MST</i> = minimum spanning tree of weighted graph<br>
+        &emsp;<i>odd</i> = all the odd degree vertices <i>MST</i><br>
+        &emsp;<i>match</i> = minimum weight matching<br>
+        &emsp;<i>E</i> = Eulerian circuit using edges of <i>match</i> and <i>MST</i><br>
+        &emsp;remove repeated vertices of <i>E</i><br>
+        &emsp;return <i>E</i><br><br>
+
+
+    </dd>
+</dl>
+
+<input type="text" id="numPoints" value="">
+<button onclick="randomPointsCustom()">Any Number of Points</button>
+
+<svg id="dataviz_area" height=200 width=450>
+    <defs>
+        <marker
+                id="arrow"
+                markerUnits="strokeWidth"
+                markerWidth="12"
+                markerHeight="12"
+                viewBox="0 0 12 12"
+                refX="6"
+                refY="6"
+                orient="auto">
+            <path d="M2,2 L10,6 L2,10 L6,6 L2,2" style="fill: #0088ff;"></path>
+        </marker>
+    </defs>
+</svg>
+
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<script src="plot.js"></script>
+
+<script src="algorithms.js"></script>
+<script src="NearestNeighbor.js"></script>
+<script src="TwoApprox.js"></script>
+<script src="ChristofidesApprox.js"></script>
+
+<p></p>
+<button onclick="nearestNeighbor(points)">Nearest Neighbor</button>
+<p></p>
+<button onclick="twoApprox(points)">2-Approx</button>
+<p></p>
+<button onclick="christofides(points)">1.5-Approx</button>
+
+<body>
+    <p id="pointsCount">Points: 0</p>
+    <p id="path">Path: </p>
+    <p id="distance">Total Distance: </p>
+</body>
+</html>

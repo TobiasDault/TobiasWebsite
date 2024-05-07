@@ -1,0 +1,87 @@
+
+\documentclass[11pt]{article}
+	\usepackage{algorithm,algpseudocode,hyperref}
+    \title{\textbf{Traveling Salesman Problem}}
+    \author{Tobias Dault}
+    \date{29 April 2020}
+    
+    \addtolength{\topmargin}{-3cm}
+    \addtolength{\textheight}{3cm}
+    
+
+
+    
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\section{Introduction}
+The famous Traveling Salesman problem (TSP) states: Given a list of cities and the distances between each pair of cities, what is the shortest possible route that visits each city exactly once and returns to the origin city? I implemented 3 popular approximation algorithms in an easy to use web-application using JavaScript.
+
+
+\section{Nearest Neighbor}
+The path is decided by which point is closest to the current point, therefore this is a brute-force, greedy algorithm and a naive approach. Despite this, it out performs 2-approximate and Christofides for small sized point sets. No guaranteed approximation. $O(n^2)$ time
+\begin{algorithm}
+	\caption{Nearest Neighbor}
+	\begin{algorithmic}
+		\Function{NearestNeighbor}{P}
+		\State Stack $path$
+		\State boolean array $V$ of size $||P||$ populated with false
+		\State $path$.push(1)
+		\State $i$ = 0
+		\While{$||\emph{path}|| < ||\emph{P}||$}
+		\State $V_i = true$
+		\State $closest =$ closest point to $P_i$
+		\State $path$.push(closest)
+		\State $i = closest$
+		\EndWhile
+		\State $path$.push(1)
+		\State return $path$
+		\EndFunction
+		
+	\end{algorithmic}
+\end{algorithm}
+\newpage
+\section{2-Approximate}
+Construct path by creating an MST (Prim's was used in my implementation) then performing depth-first search (pre-order traversal). $O(n^2)$ time
+\begin{algorithm}
+	\caption{Two Approximate}
+	\begin{algorithmic}
+		\Function{Two-Approximate}{P}
+		\State Stack $path$
+		\State generate complete weighted graph of $P$
+		\State $MST =$ minimum spanning tree of weighted graph
+		\State adjacency matrix $A$ of size $||P||$ populated with 0
+		\For{$i$ in $MST$}
+		\State add $i$ to adjacency matrix
+		\EndFor
+		\State run depth-first-search on $A$ and add each visited node to \State $path$.push(1)
+		\State return $path$
+		
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+\section{Christofides (1.5-Approximate)}
+Construct path by creating an MST, find a minimum-cost perfect matching for odd-degree vertices, add edges to MST and form an Eulerian circuit, and then remove all repeated vertices. $O(n^3)$ time
+\begin{algorithm}
+	\caption{1.5 Approximate-}
+	\begin{algorithmic}
+		\Function{Christofides}{P}
+		\State generate complete weighted graph of $P$
+		\State $MST =$ minimum spanning tree of weighted graph
+		\State $odd =$ all the odd degree vertices of $MST$
+		\State $match =$ minimum weight matching
+		\State $E =$ Eulerian circuit using edges of $match$ and $MST$
+		\State remove repeated vertices of $E$
+		\State return $E$
+		
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+To view an interactive visualization of these algorithms, visit my Github repository \href{https://github.com/TobsterStrudel/TSPWebApp}{here}
+
+\end{document}
+
