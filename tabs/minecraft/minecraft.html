@@ -35,7 +35,6 @@ const txt = await (await fetch('https://api.mcsrvstat.us/3/mc.tobiasdault.com'))
 const obj = JSON.parse(txt);
 document.getElementById("serverUp").innerHTML = obj.debug.ping === "true" ? "ONLINE" : "OFFLINE";
 </script>
-            <section>
                 <h2>Contact Me</h2>
                 <p>You can reach me at: tobiasdault@gmail.com</p>
             </section>
