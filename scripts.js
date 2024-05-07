@@ -1,3 +1,10 @@
+if(!localStorage.getItem("lastServertime")){
+    localStorage.setItem("lastServertime", 0);
+}
+if(!localStorage.getItem("mc-online")){
+    localStorage.setItem("mc-online", "true");
+}
+
 var timerInterval;
   function updateServerStatus() {
     const url = 'https://api.mcsrvstat.us/3/mc.tobiasdault.com';
