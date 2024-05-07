@@ -1,7 +1,4 @@
 var timerInterval;
-var uptime = localStorage.getItem('uptime') ? parseInt(localStorage.getItem('uptime')) : 0;
-var downtime = localStorage.getItem('downtime') ? parseInt(localStorage.getItem('downtime')) : 0;
-
   function updateServerStatus() {
     const url = 'https://api.mcsrvstat.us/3/mc.tobiasdault.com';
 
@@ -13,24 +10,27 @@ var downtime = localStorage.getItem('downtime') ? parseInt(localStorage.getItem(
     return response.json();
     })
     .then(data => {
-        var serverStatus = data.online ? "ONLINE" : "OFFLINE";
-        console.log("serverStatus" + serverStatus);
+        var serverStatus = data.online ? "online" : "offline"; //checking JSON for online condition
         var statusElement = document.getElementById('serverStatus');
         statusElement.innerText = 'Server Status: ';
         if (serverStatus === 'online') {
             statusElement.innerHTML += '<span class="online">ONLINE</span>';
-            uptime++;
         } else {
             statusElement.innerHTML += '<span class="offline">OFFLINE</span>';
         }
-    
         // Update timer
         var timerElement = document.getElementById('timer');
         if (serverStatus === 'online') {
-            stopTimer();
+            if(localStorage.getItem("mc-online")==="false"){
+               localStorage.setItem("lastServertime", new Date().getTime());
+                localStorage.setItem("mc-online", "true");
+            }
             startTimer(timerElement, true);
         } else {
-            stopTimer();
+            if(localStorage.getItem("mc-online")==="true"){
+                localStorage.setItem("lastServertime", new Date().getTime());
+                localStorage.setItem("mc-online", "false");
+            }
             startTimer(timerElement, false);
         }
   })
@@ -39,18 +39,20 @@ var downtime = localStorage.getItem('downtime') ? parseInt(localStorage.getItem(
   });
 }
 function startTimer(timerElement, up) {
-    var startTime = new Date().getTime();
-
+    var startTime = new Date(parseInt(localStorage.getItem("lastServertime")));
     function updateTimer() {
+        console.log("startTime: " + startTime);
         var currentTime = new Date().getTime();
+        console.log("currentTime: " + currentTime);
         var elapsedTime = currentTime - startTime;
+        console.log("elapsedTime: " + elapsedTime);
         var seconds = Math.floor(elapsedTime / 1000);
         var minutes = Math.floor(seconds / 60);
         seconds %= 60;
         if(up){
             timerElement.innerText = 'Server Uptime: ' + minutes + 'm ' + seconds + 's\n';
         }else{
-            timerElement.innerText = 'Server Downtime: ' + downtime++ + 's';  
+            timerElement.innerText = 'Server Downtime: ' + minutes + 'm ' + seconds + 's\n';
         }
     }
 
@@ -62,7 +64,6 @@ function stopTimer() {
     var timerElement = document.getElementById('timer');
     timerElement.innerText = ''; // Clear timer display
 }
-
 // Update server status initially and every 10 seconds
 updateServerStatus();
-setInterval(updateServerStatus, 50000);
+setInterval(updateServerStatus, 10000);
